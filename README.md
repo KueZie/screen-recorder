@@ -34,7 +34,7 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2020 [Hunter Goram](https://github.com/KueZie).<br />
-This project is [SEE LICENSE IN LICENSE.md](https://github.com/KueZie/screen-recorder/blob/master/LICENSE) licensed.
+This project is [GNUv3](https://github.com/KueZie/screen-recorder/blob/master/LICENSE) licensed.
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
