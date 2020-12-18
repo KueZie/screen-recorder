@@ -4,11 +4,12 @@ html, body {
     overflow: hidden;
     height: 100%;
     width: 100%;
+    background-image: linear-gradient(to bottom right, #4446bb ,#44e9ff);
 }
 
 .header {
     font-family: 'Roboto', sans-serif;
-    background-color: #242582;
+    background-color: #171adb;
     display: flex;
     flex-direction: column;
     align-items: center;

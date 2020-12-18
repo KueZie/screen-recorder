@@ -33,15 +33,15 @@ async function showSource(src) {
             mandatory: {
                 chromeMediaSource: 'desktop',
                 chromeMediaSourceId: src.id
-            },
-            audio: false
-        }
+            }
+        },
+        audio: false
     };
 
     // Get source from user selection
     const stream = await navigator.mediaDevices.getUserMedia(sourceConstraints);
 
-    // Link the stream of the source to the video output element in the app
+    // // Link the stream of the source to the video output element in the app
     videoDisplay.srcObject = stream;
     videoDisplay.play();
 
