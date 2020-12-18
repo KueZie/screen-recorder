@@ -27,6 +27,8 @@ async function getSources() {
 }
 
 async function showSource(src) {
+    const bounds = remote.getCurrentWindow().webContents.getOwnerBrowserWindow().getBounds();
+    console.log(navigator.mediaDevices.getSupportedConstraints());
     // Details about the source the user selected
     const sourceConstraints = {
         video: {

@@ -9,7 +9,7 @@ html, body {
 
 .header {
     font-family: 'Roboto', sans-serif;
-    background-color: #171adb;
+    background-color: rgba(0, 0, 255, 0.15);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,14 +30,15 @@ html, body {
 .video-display-wrapper {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 70%;
     width: 100%;
 }
 
 #video-display {
-    height: 100%;
-    width: auto;
+    max-height: 100%;
+    width: 90%;
 }
 
 #video-select-btn {
