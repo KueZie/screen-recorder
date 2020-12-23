@@ -1,4 +1,4 @@
-import { desktopCapturer, remote } from 'electron';
+const { desktopCapturer, remote } = require('electron');
 const { Menu, dialog } = remote;
 const { writeFile } = require('fs');
 
@@ -28,62 +28,43 @@ async function getSources() {
     selectorMenu.popup(); // Show menu
 }
 
-async function toggleRecord() {
-    if (recorder.state == 'recording')
-        recorder.stop();
-    else
-        recorder.start();
-}
-
+let recording = false;
 let recorder;
 const chunks = [];
 
 async function showSource(src) {
     // Details about the source the user selected
     const sourceConstraints = {
+        audio: false,
         video: {
             mandatory: {
                 chromeMediaSource: 'desktop',
                 chromeMediaSourceId: src.id
             }
-        },
-        audio: false
+        }
     };
 
-    let recording = false;
-    navigator.mediaDevices.getUserMedia(sourceConstraints) // Get source from user selection
-        .then(stream => {
-            // Link the stream of the source to the video output element in the app
-            videoDisplay.srcObject = stream;
-            videoDisplay.play();
+    // Get source from user selection
+    const stream = await navigator.mediaDevices.getUserMedia(sourceConstraints);
 
-            recorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
-            recorder.addEventListener('dataavailable', handleData);
-            recorder.onstop = e => handleVideoSave(e, chunks);
-        });
+    // Link the stream of the source to the video output element in the app
+    videoDisplay.srcObject = stream;
+    videoDisplay.play()
+    
+    const options = { mimeType: 'video/webm; codecs=vp9' };
+    recorder = new MediaRecorder(stream, options);
 
-    recordToggleBtn.onclick = () => {
-        if (!recording) { recorder.start(); }
-        else            { recorder.stop(); }
-
-        recordToggleBtn.classList.toggle('red');
-        recordToggleBtn.classList.toggle('limegreen');
-        recordToggleBtn.children[0].classList.toggle('fa-pause');
-        recordToggleBtn.children[0].classList.toggle('fa-video');
-        recording = !recording;
-    }
-
-    setInterval(() => {
-        console.log(recorder);
-    }, 1000);
+    recorder.onerror = e => { console.log(e); } 
+    recorder.ondataavailable = handleData;
+    recorder.onstop = handleVideoSave;
 }
 
 function handleData(e) {
-    console.log('Pushing a chunk!');
+    console.log('Pushing a chunk!' + e.data);
     chunks.push(e.data);
 }
 
-async function handleVideoSave(event, chunks) {
+async function handleVideoSave(e) {
     const d = new Date();
     const fileName = `${d.getFullYear()}-${d.getMonth()}-${d.getHours()}-${d.getMinutes()}-SR.webm`;
     const blob = new Blob(chunks, { type: 'video/webm; codecs=vp9' });
@@ -94,11 +75,19 @@ async function handleVideoSave(event, chunks) {
     });
 
     if (filePath) {
-        writeFile(filePath, chunks, () => console.log('Successfully saved video to: ' + filePath));
+        writeFile(filePath, buff, () => console.log('Successfully saved video to: ' + filePath));
     }
 }
 
 videoSelectBtn.onclick = getSources;
+recordToggleBtn.onclick = () => {
+    if (!recording) { recorder.start(); }
+    else            { recorder.stop(); }
 
-
- 
+    recordToggleBtn.classList.toggle('red');
+    recordToggleBtn.classList.toggle('limegreen');
+    recordToggleBtn.children[0].classList.toggle('fa-pause');
+    recordToggleBtn.children[0].classList.toggle('fa-video');
+    recording = !recording;
+    console.log(recorder);
+}
