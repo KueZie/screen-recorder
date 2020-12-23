@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> Simple screen recording utility with automatic Google Drive upload capabilities.
+> Simple screen recording utility to save clips from arbitrary applications.
 
 ### 🏠 [Homepage](https://github.com/KueZie/screen-recorder#readme)
 
